@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocks Prices</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #f7f7f7, #eaeaea);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+        .card {
+            width: 600px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fade-in 0.5s ease;
+        }
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .header {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button-link {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 20px;
+            font-weight: bold;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+        }
+        .button-link:hover {
+            color: #0056b3;
+            border-bottom-color: #0056b3;
+        }
+        #stocks {
+            overflow-y: auto;
+            max-height: 400px;
+            margin-bottom: 20px;
+        }
+        .stock-entry {
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #fff, #f9f9f9);
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fade-in 0.5s ease;
+        }
+        .stock-entry:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        .stock-entry p {
+            margin: 5px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .load-more-btn {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        .load-more-btn:hover {
+            background: linear-gradient(to right, #0056b3, #003d7e);
+        }
+    </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">Stock Market Analysis</div>
+    <div class="button-container">
+        <a href="/" class="button-link">Crypto</a>
+        <a href="/stocks" class="button-link">Stocks</a>
+        <a href="/gainers" class="button-link">Gainer</a>
+        <a href="/losers" class="button-link">Loser</a>
+    </div>
+    <div id="stocks">
+        {% for stock in stocks %}
+            <div class="stock-entry">
+                {% if stock.img_url %}
+                    <img src="{{ stock.img_url }}" alt="Stock Image" style="width: 20px; height: 20px;">
+                {% endif %}
+                <p><strong>Symbol:</strong> {{ stock.symbol }}</p>
+                <p><strong>Name:</strong> {{ stock.name }}</p>
+                <p><strong>Price:</strong> {{ stock.price }}</p>
+            </div>
+        {% endfor %}
+    </div>    
+    <button id="load-more-btn" class="load-more-btn">Load More</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initially show only 5 entries
+        $('.stock-entry:gt(4)').hide();
+
+        $('#load-more-btn').click(function() {
+            $('.stock-entry:hidden').slice(0, 5).show();
+            if ($('.stock-entry:hidden').length === 0) {
+                $('#load-more-btn').hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>
